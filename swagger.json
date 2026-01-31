@@ -5,10 +5,9 @@
     "description": "University Library Management API documentation",
     "version": "1.0.0"
   },
-  "host": "localhost:3000",
+  "host": "cse341-team13-8amt.onrender.com",
   "basePath": "/",
   "schemes": [
-    "http",
     "https"
   ],
   "paths": {
