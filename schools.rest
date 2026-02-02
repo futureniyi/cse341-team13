@@ -1,0 +1,76 @@
+@baseUrl = http://localhost:3000
+@schoolId = 6981136081b0fc92badcd76c
+
+### Get all schools
+GET {{baseUrl}}/schools
+
+### Get school by ID
+
+GET {{baseUrl}}/schools/{{schoolId}}
+
+### Create school 1
+POST {{baseUrl}}/schools
+Content-Type: application/json
+
+{
+  "name": "Provo City Library",
+  "district": "Provo District",
+  "address": "550 N University Ave, Provo, UT 84601",
+  "contactEmail": "info@provocitylibrary.org",
+  "phone": "801-852-6661",
+  "website": "https://www.provocitylibrary.org",
+  "establishedYear": 1908,
+  "libraryHours": "Mon-Thu 9am-9pm; Fri-Sat 9am-6pm; Sun 12pm-5pm",
+  "active": true
+}
+
+### Create school 2
+POST {{baseUrl}}/schools
+Content-Type: application/json
+
+{
+  "name": "BYU Library",
+  "district": "BYU",
+  "address": "333 W University Pkwy, Provo, UT 84602",
+  "contactEmail": "library@byu.edu",
+  "phone": "801-422-2982",
+  "website": "https://lib.byu.edu",
+  "establishedYear": 1875,
+  "libraryHours": "Mon-Thu 7am-12am; Fri 7am-10pm; Sat 9am-10pm; Sun 12pm-12am",
+  "active": true
+}
+
+### Create school 3
+POST {{baseUrl}}/schools
+Content-Type: application/json
+
+{
+  "name": "Maple Grove High School Library",
+  "district": "Alpine School District",
+  "address": "51 N 2550 W, Pleasant Grove, UT 84062",
+  "contactEmail": "library@maplegrovehs.edu",
+  "phone": "801-555-0199",
+  "website": "https://www.maplegrovehs.edu/library",
+  "establishedYear": 1998,
+  "libraryHours": "Mon-Fri 7:30am-3:30pm",
+  "active": true
+}
+
+### Update school by id
+PUT {{baseUrl}}/schools/{{schoolId}}
+Content-Type: application/json
+
+{
+  "name": "Maple Grove High School Library",
+  "district": "Alpine School District",
+  "address": "51 N 2550 W, Pleasant Grove, UT 84062",
+  "contactEmail": "library@maplegrovehs.edu",
+  "phone": "801-555-0199",
+  "website": "https://www.maplegrovehs.edu/library",
+  "establishedYear": 2000,
+  "libraryHours": "Mon-Fri 7:30am-3:30pm",
+  "active": true
+}
+
+### Delete school by id
+DELETE {{baseUrl}}/schools/{{schoolId}}

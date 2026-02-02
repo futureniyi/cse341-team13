@@ -40,7 +40,33 @@ const saveStudent = (req, res, next) => {
     next();
   });
 };
+
+const saveSchool = (req, res, next) => {
+  const validationRule = {
+    name: 'required|string',
+    district: 'string',
+    address: 'required|string',
+    contactEmail: 'required|email',
+    phone: 'string',
+    website: 'string',
+    establishedYear: 'numeric',
+    libraryHours: 'string',
+    active: 'boolean'
+  };
+
+  validator(req.body, validationRule, {}, (err, status) => {
+    if (!status) {
+      return res.status(412).send({
+        success: false,
+        message: 'Validation failed',
+        data: err
+      });
+    }
+    next();
+  });
+};
 module.exports = {
   saveBook,
-  saveStudent
+  saveStudent,
+  saveSchool
 };
