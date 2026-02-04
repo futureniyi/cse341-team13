@@ -576,173 +576,185 @@
     },
     "/loans/": {
       "get": {
-        "tags": [
-          "Loans"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Loans"],
+        "summary": "Get all loans",
+        "produces": ["application/json"],
         "responses": {
           "200": {
-            "description": "OK"
-          }
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "_id": { "type": "string", "example": "69811ad214bfb769a47ae66a" },
+                  "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
+                  "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
+                  "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
+                  "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
+                  "returnDate": { "type": "string", "format": "date-time", "example": null },
+                  "status": { "type": "string", "example": "checked_out" }
+                }
+              }
+            }
+          },
+          "500": { "description": "Internal Server Error" }
         }
       },
       "post": {
-        "tags": [
-          "Loans"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Loans"],
+        "summary": "Create a new loan",
+        "consumes": ["application/json"],
+        "produces": ["application/json"],
         "parameters": [
           {
-            "name": "body",
             "in": "body",
+            "name": "loan",
+            "required": true,
             "schema": {
               "type": "object",
+              "required": ["studentId", "bookId", "loanDate", "dueDate", "status"],
               "properties": {
-                "studentId": {
-                  "example": "any"
-                },
-                "bookId": {
-                  "example": "any"
-                },
-                "loanDate": {
-                  "example": "any"
-                },
-                "dueDate": {
-                  "example": "any"
-                },
-                "returnDate": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                }
+                "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
+                "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
+                "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
+                "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
+                "returnDate": { "type": "string", "format": "date-time", "example": null },
+                "status": { "type": "string", "example": "checked_out" }
               }
             }
           }
         ],
         "responses": {
-          "200": {
-            "description": "OK"
+          "201": {
+            "description": "Created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": { "type": "string", "example": "69811ad214bfb769a47ae66a" },
+                "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
+                "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
+                "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
+                "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
+                "returnDate": { "type": "string", "format": "date-time", "example": null },
+                "status": { "type": "string", "example": "checked_out" }
+              }
+            }
           },
-          "204": {
-            "description": "No Content"
+          "204": { "description": "No Content" },
+          "412": {
+            "description": "Validation failed",
+            "examples": {
+              "application/json": {
+                "success": false,
+                "message": "Validation failed",
+                "data": {
+                  "studentId": ["The studentId field is required."],
+                  "bookId": ["The bookId field is required."]
+                }
+              }
+            }
           },
           "400": {
-            "description": "Bad Request"
+            "description": "Bad Request",
+            "examples": { "application/json": { "error": "Bad Request" } }
           },
-          "412": {
-            "description": "Precondition Failed"
+          "500": {
+            "description": "Internal Server Error",
+            "examples": { "application/json": { "error": "Server Error" } }
           }
         }
       }
     },
     "/loans/{id}": {
       "get": {
-        "tags": [
-          "Loans"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
+        "tags": ["Loans"],
+        "summary": "Get a loan by id",
+        "produces": ["application/json"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "MongoDB ObjectId"
           }
         ],
         "responses": {
           "200": {
-            "description": "OK"
-          }
+            "description": "OK",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "_id": { "type": "string", "example": "69811ad214bfb769a47ae66a" },
+                "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
+                "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
+                "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
+                "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
+                "returnDate": { "type": "string", "format": "date-time", "example": null },
+                "status": { "type": "string", "example": "checked_out" }
+              }
+            }
+          },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
         }
       },
       "put": {
-        "tags": [
-          "Loans"
-        ],
-        "description": "",
+        "tags": ["Loans"],
+        "summary": "Update a loan by id",
+        "consumes": ["application/json"],
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "MongoDB ObjectId"
           },
           {
-            "name": "body",
             "in": "body",
+            "name": "loan",
+            "required": true,
             "schema": {
               "type": "object",
+              "required": ["studentId", "bookId", "loanDate", "dueDate", "status"],
               "properties": {
-                "studentId": {
-                  "example": "any"
-                },
-                "bookId": {
-                  "example": "any"
-                },
-                "loanDate": {
-                  "example": "any"
-                },
-                "dueDate": {
-                  "example": "any"
-                },
-                "returnDate": {
-                  "example": "any"
-                },
-                "status": {
-                  "example": "any"
-                }
+                "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
+                "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
+                "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
+                "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
+                "returnDate": { "type": "string", "format": "date-time", "example": null },
+                "status": { "type": "string", "example": "returned" }
               }
             }
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "412": {
-            "description": "Precondition Failed"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" },
+          "412": { "description": "Validation failed" },
+          "400": { "description": "Bad Request" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
         }
       },
       "delete": {
-        "tags": [
-          "Loans"
-        ],
-        "description": "",
+        "tags": ["Loans"],
+        "summary": "Delete a loan by id",
         "parameters": [
-          {
+          {   
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "MongoDB ObjectId"
           }
         ],
         "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "204": { "description": "No Content" },
+          "404": { "description": "Not Found" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     }

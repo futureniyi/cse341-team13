@@ -72,25 +72,26 @@ const saveSchool = (req, res, next) => {
 
 const saveLoan = (req, res, next) => {
   const validationRule = {
-    studentId: 'required|string',
-    bookId: 'required|string',
+    studentId: 'required|string|regex:/^[0-9a-fA-F]{24}$/',
+    bookId: 'required|string|regex:/^[0-9a-fA-F]{24}$/',
     loanDate: 'required|date',
     dueDate: 'required|date',
-    returnDate: 'date',
-    status: 'string'
+    returnDate: 'sometimes|date',
+    status: 'required|string'
   };
-
   validator(req.body, validationRule, {}, (err, status) => {
     if (!status) {
-      return res.status(412).send({
+      res.status(412).send({
         success: false,
         message: 'Validation failed',
         data: err
       });
+    } else {
+      next();
     }
-    next();
   });
 };
+
 module.exports = {
   saveBook,
   saveStudent,
