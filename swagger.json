@@ -7,755 +7,796 @@
   },
   "host": "localhost:3000",
   "basePath": "/",
-  "schemes": [
-    "https",
-    "http"
+  "schemes": ["https", "http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+
+  "tags": [
+    { "name": "Health", "description": "API health check" },
+    { "name": "Books", "description": "Manage books in the library" },
+    { "name": "Students", "description": "Manage students" },
+    { "name": "Schools", "description": "Manage schools" },
+    { "name": "Loans", "description": "Manage book loans" }
   ],
-  "consumes": [
-    "application/json"
-  ],
-  "produces": [
-    "application/json"
-  ],
+
+  "securityDefinitions": {
+    "sessionCookie": {
+      "type": "apiKey",
+      "name": "Cookie",
+      "in": "header",
+      "description": "Session-based auth (GitHub OAuth). Swagger UI will send cookies automatically after you log in in the same browser."
+    }
+  },
+
   "paths": {
     "/": {
       "get": {
-        "description": "",
+        "tags": ["Health"],
+        "summary": "Health check",
+        "description": "Simple endpoint to confirm the API is running.",
         "responses": {
           "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
-    "/books/": {
-      "get": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "any"
-                },
-                "author": {
-                  "example": "any"
-                },
-                "isbn": {
-                  "example": "any"
-                },
-                "category": {
-                  "example": "any"
-                },
-                "publicationYear": {
-                  "example": "any"
-                },
-                "totalCopies": {
-                  "example": "any"
-                },
-                "availableCopies": {
-                  "example": "any"
-                },
-                "shelfLocation": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "412": {
-            "description": "Precondition Failed"
-          }
-        }
-      }
-    },
-    "/books/{id}": {
-      "get": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "title": {
-                  "example": "any"
-                },
-                "author": {
-                  "example": "any"
-                },
-                "isbn": {
-                  "example": "any"
-                },
-                "category": {
-                  "example": "any"
-                },
-                "publicationYear": {
-                  "example": "any"
-                },
-                "totalCopies": {
-                  "example": "any"
-                },
-                "availableCopies": {
-                  "example": "any"
-                },
-                "shelfLocation": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "412": {
-            "description": "Precondition Failed"
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/HealthResponse" }
           },
           "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Books"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         }
       }
     },
-    "/students/": {
+
+    "/books": {
       "get": {
-        "tags": [
-          "Students"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Students"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "studentNumber": {
-                  "example": "any"
-                },
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "department": {
-                  "example": "any"
-                },
-                "isActive": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "412": {
-            "description": "Precondition Failed"
-          }
-        }
-      }
-    },
-    "/students/{id}": {
-      "get": {
-        "tags": [
-          "Students"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Students"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "studentNumber": {
-                  "example": "any"
-                },
-                "firstName": {
-                  "example": "any"
-                },
-                "lastName": {
-                  "example": "any"
-                },
-                "email": {
-                  "example": "any"
-                },
-                "department": {
-                  "example": "any"
-                },
-                "isActive": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "412": {
-            "description": "Precondition Failed"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Students"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/schools/": {
-      "get": {
-        "tags": [
-          "Schools"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Schools"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "district": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "contactEmail": {
-                  "example": "any"
-                },
-                "phone": {
-                  "example": "any"
-                },
-                "website": {
-                  "example": "any"
-                },
-                "establishedYear": {
-                  "example": "any"
-                },
-                "libraryHours": {
-                  "example": "any"
-                },
-                "active": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "412": {
-            "description": "Precondition Failed"
-          }
-        }
-      }
-    },
-    "/schools/{id}": {
-      "get": {
-        "tags": [
-          "Schools"
-        ],
-        "description": "",
-        "produces": [
-          "application/json"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
-      "put": {
-        "tags": [
-          "Schools"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
-          {
-            "name": "body",
-            "in": "body",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "example": "any"
-                },
-                "district": {
-                  "example": "any"
-                },
-                "address": {
-                  "example": "any"
-                },
-                "contactEmail": {
-                  "example": "any"
-                },
-                "phone": {
-                  "example": "any"
-                },
-                "website": {
-                  "example": "any"
-                },
-                "establishedYear": {
-                  "example": "any"
-                },
-                "libraryHours": {
-                  "example": "any"
-                },
-                "active": {
-                  "example": "any"
-                }
-              }
-            }
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "412": {
-            "description": "Precondition Failed"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Schools"
-        ],
-        "description": "",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
-        ],
-        "responses": {
-          "204": {
-            "description": "No Content"
-          },
-          "400": {
-            "description": "Bad Request"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
-    "/loans/": {
-      "get": {
-        "tags": ["Loans"],
-        "summary": "Get all loans",
-        "produces": ["application/json"],
+        "tags": ["Books"],
+        "summary": "Get all books",
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
               "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "_id": { "type": "string", "example": "69811ad214bfb769a47ae66a" },
-                  "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
-                  "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
-                  "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
-                  "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
-                  "returnDate": { "type": "string", "format": "date-time", "example": null },
-                  "status": { "type": "string", "example": "checked_out" }
-                }
-              }
+              "items": { "$ref": "#/definitions/Book" }
             }
           },
-          "500": { "description": "Internal Server Error" }
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Books"],
+        "summary": "Create a new book",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [
+          {
+            "name": "book",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/BookInput" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "201": {
+            "description": "Created",
+            "schema": { "$ref": "#/definitions/Book" }
+          },
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "412": {
+            "description": "Validation failed",
+            "schema": { "$ref": "#/definitions/ValidationErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      }
+    },
+
+    "/books/{id}": {
+      "get": {
+        "tags": ["Books"],
+        "summary": "Get a book by id",
+        "parameters": [{ "$ref": "#/parameters/MongoIdParam" }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Book" }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Books"],
+        "summary": "Update a book by id",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [
+          { "$ref": "#/parameters/MongoIdParam" },
+          {
+            "name": "book",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/BookInput" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "412": {
+            "description": "Validation failed",
+            "schema": { "$ref": "#/definitions/ValidationErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Books"],
+        "summary": "Delete a book by id",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "$ref": "#/parameters/MongoIdParam" }],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      }
+    },
+
+    "/students": {
+      "get": {
+        "tags": ["Students"],
+        "summary": "Get all students",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Student" }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Students"],
+        "summary": "Create a new student",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [
+          {
+            "name": "student",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/StudentInput" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "201": {
+            "description": "Created",
+            "schema": { "$ref": "#/definitions/Student" }
+          },
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "412": {
+            "description": "Validation failed",
+            "schema": { "$ref": "#/definitions/ValidationErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      }
+    },
+
+    "/students/{id}": {
+      "get": {
+        "tags": ["Students"],
+        "summary": "Get a student by id",
+        "parameters": [{ "$ref": "#/parameters/MongoIdParam" }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/Student" }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Students"],
+        "summary": "Update a student by id",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [
+          { "$ref": "#/parameters/MongoIdParam" },
+          {
+            "name": "student",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/StudentInput" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "412": {
+            "description": "Validation failed",
+            "schema": { "$ref": "#/definitions/ValidationErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Students"],
+        "summary": "Delete a student by id",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "$ref": "#/parameters/MongoIdParam" }],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      }
+    },
+
+    "/schools": {
+      "get": {
+        "tags": ["Schools"],
+        "summary": "Get all schools",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/School" }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Schools"],
+        "summary": "Create a new school",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [
+          {
+            "name": "school",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/SchoolInput" }
+          }
+        ],
+        "responses": {
+          "200": { "description": "OK" },
+          "201": {
+            "description": "Created",
+            "schema": { "$ref": "#/definitions/School" }
+          },
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "412": {
+            "description": "Validation failed",
+            "schema": { "$ref": "#/definitions/ValidationErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      }
+    },
+
+    "/schools/{id}": {
+      "get": {
+        "tags": ["Schools"],
+        "summary": "Get a school by id",
+        "parameters": [{ "$ref": "#/parameters/MongoIdParam" }],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": { "$ref": "#/definitions/School" }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Schools"],
+        "summary": "Update a school by id",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [
+          { "$ref": "#/parameters/MongoIdParam" },
+          {
+            "name": "school",
+            "in": "body",
+            "required": true,
+            "schema": { "$ref": "#/definitions/SchoolInput" }
+          }
+        ],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "412": {
+            "description": "Validation failed",
+            "schema": { "$ref": "#/definitions/ValidationErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Schools"],
+        "summary": "Delete a school by id",
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "$ref": "#/parameters/MongoIdParam" }],
+        "responses": {
+          "204": { "description": "No Content" },
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
+        }
+      }
+    },
+
+    "/loans": {
+      "get": {
+        "tags": ["Loans"],
+        "summary": "Get all loans",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/definitions/Loan" }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
         }
       },
       "post": {
         "tags": ["Loans"],
         "summary": "Create a new loan",
-        "consumes": ["application/json"],
-        "produces": ["application/json"],
+        "security": [{ "sessionCookie": [] }],
         "parameters": [
           {
             "in": "body",
             "name": "loan",
             "required": true,
-            "schema": {
-              "type": "object",
-              "required": ["studentId", "bookId", "loanDate", "dueDate", "status"],
-              "properties": {
-                "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
-                "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
-                "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
-                "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
-                "returnDate": { "type": "string", "format": "date-time", "example": null },
-                "status": { "type": "string", "example": "checked_out" }
-              }
-            }
+            "schema": { "$ref": "#/definitions/LoanInput" }
           }
         ],
         "responses": {
           "201": {
             "description": "Created",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "_id": { "type": "string", "example": "69811ad214bfb769a47ae66a" },
-                "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
-                "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
-                "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
-                "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
-                "returnDate": { "type": "string", "format": "date-time", "example": null },
-                "status": { "type": "string", "example": "checked_out" }
-              }
-            }
+            "schema": { "$ref": "#/definitions/Loan" }
           },
           "204": { "description": "No Content" },
-          "412": {
-            "description": "Validation failed",
-            "examples": {
-              "application/json": {
-                "success": false,
-                "message": "Validation failed",
-                "data": {
-                  "studentId": ["The studentId field is required."],
-                  "bookId": ["The bookId field is required."]
-                }
-              }
-            }
-          },
           "400": {
             "description": "Bad Request",
-            "examples": { "application/json": { "error": "Bad Request" } }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "412": {
+            "description": "Validation failed",
+            "schema": { "$ref": "#/definitions/ValidationErrorResponse" }
           },
           "500": {
             "description": "Internal Server Error",
-            "examples": { "application/json": { "error": "Server Error" } }
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
           }
         }
       }
     },
+
     "/loans/{id}": {
       "get": {
         "tags": ["Loans"],
         "summary": "Get a loan by id",
-        "produces": ["application/json"],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "MongoDB ObjectId"
-          }
-        ],
+        "parameters": [{ "$ref": "#/parameters/MongoIdParam" }],
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "_id": { "type": "string", "example": "69811ad214bfb769a47ae66a" },
-                "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
-                "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
-                "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
-                "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
-                "returnDate": { "type": "string", "format": "date-time", "example": null },
-                "status": { "type": "string", "example": "checked_out" }
-              }
-            }
+            "schema": { "$ref": "#/definitions/Loan" }
           },
-          "400": { "description": "Bad Request" },
-          "404": { "description": "Not Found" },
-          "500": { "description": "Internal Server Error" }
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
         }
       },
       "put": {
         "tags": ["Loans"],
         "summary": "Update a loan by id",
-        "consumes": ["application/json"],
+        "security": [{ "sessionCookie": [] }],
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "MongoDB ObjectId"
-          },
+          { "$ref": "#/parameters/MongoIdParam" },
           {
             "in": "body",
             "name": "loan",
             "required": true,
-            "schema": {
-              "type": "object",
-              "required": ["studentId", "bookId", "loanDate", "dueDate", "status"],
-              "properties": {
-                "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
-                "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
-                "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
-                "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
-                "returnDate": { "type": "string", "format": "date-time", "example": null },
-                "status": { "type": "string", "example": "returned" }
-              }
-            }
+            "schema": { "$ref": "#/definitions/LoanInput" }
           }
         ],
         "responses": {
           "204": { "description": "No Content" },
-          "412": { "description": "Validation failed" },
-          "400": { "description": "Bad Request" },
-          "404": { "description": "Not Found" },
-          "500": { "description": "Internal Server Error" }
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "412": {
+            "description": "Validation failed",
+            "schema": { "$ref": "#/definitions/ValidationErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
         }
       },
       "delete": {
         "tags": ["Loans"],
         "summary": "Delete a loan by id",
-        "parameters": [
-          {   
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string",
-            "description": "MongoDB ObjectId"
-          }
-        ],
+        "security": [{ "sessionCookie": [] }],
+        "parameters": [{ "$ref": "#/parameters/MongoIdParam" }],
         "responses": {
           "204": { "description": "No Content" },
-          "404": { "description": "Not Found" },
-          "500": { "description": "Internal Server Error" }
+          "400": {
+            "description": "Bad Request",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": { "$ref": "#/definitions/ErrorResponse" }
+          }
         }
+      }
+    }
+  },
+
+  "parameters": {
+    "MongoIdParam": {
+      "name": "id",
+      "in": "path",
+      "required": true,
+      "type": "string",
+      "description": "MongoDB ObjectId (24 hex characters)",
+      "pattern": "^[a-fA-F0-9]{24}$"
+    }
+  },
+
+  "definitions": {
+    "HealthResponse": {
+      "type": "object",
+      "properties": {
+        "message": { "type": "string", "example": "API is running" }
+      }
+    },
+
+    "ErrorResponse": {
+      "type": "object",
+      "properties": {
+        "error": { "type": "string", "example": "Bad Request" }
+      }
+    },
+
+    "ValidationErrorResponse": {
+      "type": "object",
+      "properties": {
+        "success": { "type": "boolean", "example": false },
+        "message": { "type": "string", "example": "Validation failed" },
+        "data": {
+          "type": "object",
+          "example": {
+            "fieldName": ["The fieldName field is required."]
+          }
+        }
+      }
+    },
+
+    "Book": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
+        "title": { "type": "string", "example": "Clean Code" },
+        "author": { "type": "string", "example": "Robert C. Martin" },
+        "isbn": { "type": "string", "example": "9780132350884" },
+        "category": { "type": "string", "example": "Software Engineering" },
+        "publicationYear": { "type": "integer", "example": 2008 },
+        "totalCopies": { "type": "integer", "example": 10 },
+        "availableCopies": { "type": "integer", "example": 7 },
+        "shelfLocation": { "type": "string", "example": "A-12" }
+      }
+    },
+
+    "BookInput": {
+      "type": "object",
+      "required": [
+        "title",
+        "author",
+        "isbn",
+        "category",
+        "publicationYear",
+        "totalCopies",
+        "availableCopies",
+        "shelfLocation"
+      ],
+      "properties": {
+        "title": { "type": "string", "example": "Clean Code" },
+        "author": { "type": "string", "example": "Robert C. Martin" },
+        "isbn": { "type": "string", "example": "9780132350884" },
+        "category": { "type": "string", "example": "Software Engineering" },
+        "publicationYear": { "type": "integer", "example": 2008 },
+        "totalCopies": { "type": "integer", "example": 10 },
+        "availableCopies": { "type": "integer", "example": 7 },
+        "shelfLocation": { "type": "string", "example": "A-12" }
+      }
+    },
+
+    "Student": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
+        "studentNumber": { "type": "string", "example": "S1234567" },
+        "firstName": { "type": "string", "example": "Jane" },
+        "lastName": { "type": "string", "example": "Doe" },
+        "email": { "type": "string", "example": "jane.doe@example.com" },
+        "department": { "type": "string", "example": "Computer Science" },
+        "isActive": { "type": "boolean", "example": true }
+      }
+    },
+
+    "StudentInput": {
+      "type": "object",
+      "required": ["studentNumber", "firstName", "lastName", "email", "department", "isActive"],
+      "properties": {
+        "studentNumber": { "type": "string", "example": "S1234567" },
+        "firstName": { "type": "string", "example": "Jane" },
+        "lastName": { "type": "string", "example": "Doe" },
+        "email": { "type": "string", "example": "jane.doe@example.com" },
+        "department": { "type": "string", "example": "Computer Science" },
+        "isActive": { "type": "boolean", "example": true }
+      }
+    },
+
+    "School": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f7" },
+        "name": { "type": "string", "example": "BYU-Idaho" },
+        "district": { "type": "string", "example": "Rexburg District" },
+        "address": { "type": "string", "example": "525 S Center St, Rexburg, ID" },
+        "contactEmail": { "type": "string", "example": "library@school.edu" },
+        "phone": { "type": "string", "example": "+1 208 000 0000" },
+        "website": { "type": "string", "example": "https://www.byui.edu" },
+        "establishedYear": { "type": "integer", "example": 1888 },
+        "libraryHours": { "type": "string", "example": "Mon-Fri 08:00-17:00" },
+        "active": { "type": "boolean", "example": true }
+      }
+    },
+
+    "SchoolInput": {
+      "type": "object",
+      "required": [
+        "name",
+        "district",
+        "address",
+        "contactEmail",
+        "phone",
+        "website",
+        "establishedYear",
+        "libraryHours",
+        "active"
+      ],
+      "properties": {
+        "name": { "type": "string", "example": "BYU-Idaho" },
+        "district": { "type": "string", "example": "Rexburg District" },
+        "address": { "type": "string", "example": "525 S Center St, Rexburg, ID" },
+        "contactEmail": { "type": "string", "example": "library@school.edu" },
+        "phone": { "type": "string", "example": "+1 208 000 0000" },
+        "website": { "type": "string", "example": "https://www.byui.edu" },
+        "establishedYear": { "type": "integer", "example": 1888 },
+        "libraryHours": { "type": "string", "example": "Mon-Fri 08:00-17:00" },
+        "active": { "type": "boolean", "example": true }
+      }
+    },
+
+    "Loan": {
+      "type": "object",
+      "properties": {
+        "_id": { "type": "string", "example": "69811ad214bfb769a47ae66a" },
+        "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
+        "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
+        "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
+        "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
+        "returnDate": { "type": "string", "format": "date-time", "example": null },
+        "status": { "type": "string", "example": "checked_out" }
+      }
+    },
+
+    "LoanInput": {
+      "type": "object",
+      "required": ["studentId", "bookId", "loanDate", "dueDate", "status"],
+      "properties": {
+        "studentId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f8" },
+        "bookId": { "type": "string", "example": "66c4a7c6f1c2a3b4c5d6e7f9" },
+        "loanDate": { "type": "string", "format": "date-time", "example": "2026-02-01T00:00:00.000Z" },
+        "dueDate": { "type": "string", "format": "date-time", "example": "2026-02-15T00:00:00.000Z" },
+        "returnDate": { "type": "string", "format": "date-time", "example": null },
+        "status": { "type": "string", "example": "checked_out" }
       }
     }
   }

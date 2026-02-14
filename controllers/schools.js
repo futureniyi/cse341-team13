@@ -34,7 +34,6 @@ const getSchoolById = async (req, res) => {
     res.status(200).json(result);
 };
 
-
 const createSchool = async (req, res) => {
     //#swagger.tags = ['Schools']  
     const school = {
