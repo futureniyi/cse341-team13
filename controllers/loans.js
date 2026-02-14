@@ -1,11 +1,6 @@
 const mongodb = require('../data/database');
 const { ObjectId } = require('mongodb');
 
-function toObjectId(id) {
-  if (!ObjectId.isValid(id)) return null;
-  return new ObjectId(id);
-}
-
 function toDate(value) {
   if (!value) return null;
   const d = new Date(value);
@@ -29,16 +24,13 @@ const getAllLoans = async (req, res, next) => {
 
 const getLoanById = async (req, res, next) => {
   try {
-    const id = toObjectId(req.params.id);
-    if (!id) return res.status(400).json({ error: 'Invalid loan id' });
+    const id = new ObjectId(req.params.id);
 
     const loan = await mongodb
       .getDatabase()
       .db()
       .collection('loans')
       .findOne({ _id: id });
-
-    if (!loan) return res.status(404).json({ error: 'Loan not found' });
 
     res.status(200).json(loan);
   } catch (err) {
@@ -81,8 +73,7 @@ const createLoan = async (req, res, next) => {
 
 const updateLoan = async (req, res, next) => {
   try {
-    const id = toObjectId(req.params.id);
-    if (!id) return res.status(400).json({ error: 'Invalid loan id' });
+    const id = new ObjectId(req.params.id);
 
     const update = {
       studentId: req.body.studentId,
@@ -102,10 +93,6 @@ const updateLoan = async (req, res, next) => {
       .collection('loans')
       .updateOne({ _id: id }, { $set: update });
 
-    if (result.matchedCount === 0) {
-      return res.status(404).json({ error: 'Loan not found' });
-    }
-
     res.status(204).send();
   } catch (err) {
     next(err);
@@ -114,18 +101,13 @@ const updateLoan = async (req, res, next) => {
 
 const deleteLoan = async (req, res, next) => {
   try {
-    const id = toObjectId(req.params.id);
-    if (!id) return res.status(400).json({ error: 'Invalid loan id' });
+    const id = new ObjectId(req.params.id);
 
     const result = await mongodb
       .getDatabase()
       .db()
       .collection('loans')
       .deleteOne({ _id: id });
-
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ error: 'Loan not found' });
-    }
 
     res.status(204).send();
   } catch (err) {

@@ -4,6 +4,7 @@ const routes = express.Router();
 const booksController = require('../controllers/books');
 const validation = require('../middleware/validate');
 const isAuthenticated = require('../middleware/authenticate');
+const { validateObjectId, ensureDocExists } = require('../middleware/idCheck');
 
 routes.get('/', async (req, res, next) => {
   try {
@@ -14,7 +15,7 @@ routes.get('/', async (req, res, next) => {
 });
 
 
-routes.get('/:id', async (req, res, next) => {
+routes.get('/:id', validateObjectId(), ensureDocExists('books'), async (req, res, next) => {
   try {
     await booksController.getBookById(req, res);
   } catch (error) {
@@ -37,7 +38,7 @@ routes.post(
 
 
 routes.put(
-  '/:id', isAuthenticated,
+  '/:id', validateObjectId(), ensureDocExists('books'), isAuthenticated,
   validation.saveBook,
   async (req, res, next) => {
     try {
@@ -49,7 +50,7 @@ routes.put(
 );
 
 
-routes.delete('/:id', isAuthenticated,
+routes.delete('/:id', validateObjectId(), ensureDocExists('books'), isAuthenticated,
   async (req, res, next) => {
     try {
       await booksController.deleteBook(req, res);

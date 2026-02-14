@@ -1,6 +1,5 @@
 const mongodb = require('../data/database');
 const ObjectId = require('mongodb').ObjectId;
-const { validateObjectId, ensureDocExists } = require('../middleware/idCheck');
 
 
 const getAllBooks = async (req, res) => {
@@ -14,23 +13,12 @@ const getAllBooks = async (req, res) => {
 
 const getBookById = async (req, res) => {
     //#swagger.tags = ['Books']
-
-    if (!ObjectId.isValid(req.params.id)) {
-        res.status(400).json({ message: 'Invalid id' });
-        return;
-    }
-
     const userId = new ObjectId(req.params.id);
     const result = await mongodb
         .getDatabase()
         .db()
         .collection('books')
         .findOne({ _id: userId });
-
-    if (!result) {
-        res.status(404).json({ message: 'Not found' });
-        return;
-    }
 
     res.setHeader('Content-Type', 'application/json');
     res.status(200).json(result);

@@ -22,20 +22,12 @@ const getAllStudents = async (req, res) => {
 const getStudentById = async (req, res) => {
   //#swagger.tags = ['Students']
   try {
-    if (!ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'Invalid student ID' });
-    }
-
     const userId = new ObjectId(req.params.id);
     const student = await mongodb
       .getDatabase()
       .db()
       .collection('students')
       .findOne({ _id: userId });
-
-    if (!student) {
-      return res.status(404).json({ message: 'Student not found' });
-    }
 
     res.status(200).json(student);
   } catch (error) {
@@ -75,10 +67,6 @@ const createStudent = async (req, res) => {
 const updateStudent = async (req, res) => {
   //#swagger.tags = ['Students']
   try {
-    if (!ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'Invalid student ID' });
-    }
-
     const student_id = new ObjectId(req.params.id);
     const { studentNumber, firstName, lastName, email, department, isActive } = req.body;
 
@@ -93,7 +81,7 @@ const updateStudent = async (req, res) => {
     if (result.modifiedCount > 0) {
       res.status(204).send();
     } else {
-      res.status(404).json({ message: 'Student not found or no changes applied' });
+      res.status(204).send();
     }
   } catch (error) {
     res.status(500).json({ message: 'Error updating student', error: error.message });
@@ -104,10 +92,6 @@ const updateStudent = async (req, res) => {
 const deleteStudent = async (req, res) => {
   //#swagger.tags = ['Students']
   try {
-    if (!ObjectId.isValid(req.params.id)) {
-      return res.status(400).json({ message: 'Invalid student ID' });
-    }
-
     const student_id = new ObjectId(req.params.id);
     const result = await mongodb
       .getDatabase()
@@ -118,7 +102,7 @@ const deleteStudent = async (req, res) => {
     if (result.deletedCount > 0) {
       res.status(204).send();
     } else {
-      res.status(404).json({ message: 'Student not found' });
+      res.status(204).send();
     }
   } catch (error) {
     res.status(500).json({ message: 'Error deleting student', error: error.message });

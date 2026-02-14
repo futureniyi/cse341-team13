@@ -15,7 +15,8 @@ const ensureDocExists = (collectionName, paramName = 'id') => async (req, res, n
     const value = req.params[paramName];
 
     const dbName = process.env.MONGODB_DB;
-    const db = dbName ? mongodb.getDb().db(dbName) : mongodb.getDb().db();
+    const client = mongodb.getDatabase();
+    const db = dbName ? client.db(dbName) : client.db();
 
     const doc = await db.collection(collectionName).findOne({ _id: new ObjectId(value) });
 
